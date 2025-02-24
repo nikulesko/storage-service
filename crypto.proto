@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "github.com/nikulesko/golearn/data-generator/crypto";
+
+message Request {
+  //currency code for observing for example BTC
+  string base_currency_code = 1;
+  //exchange currency code for example USD
+  string exchange_currency_code = 2;
+}
+
+message Response {
+  //unix time in ms
+  int64 datetime = 1;
+  //exchange rate, we use the float type, but it must be something else to represent money
+  float rate = 2;
+}
+
+service CryptoRate {
+  rpc GetDataStreaming(Request) returns (stream Response) {}
+}
