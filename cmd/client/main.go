@@ -13,12 +13,17 @@ import (
 )
 
 func main() {
+	dataServerHost := os.Getenv("DATA_SERVER_HOST")
+	if dataServerHost == "" {
+		panic("DATA_SERVER_HOST environment variable not set")
+	}
+
 	dataServerPort := os.Getenv("DATA_SERVER_PORT")
 	if dataServerPort == "" {
 		panic("DATA_SERVER_PORT environment variable not set")
 	}
 
-	conn, err := grpc.NewClient(fmt.Sprintf("localhost:%s", dataServerPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(fmt.Sprintf("%s:%s", dataServerHost, dataServerPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Cannot connect to server: %v", err)
 	}
